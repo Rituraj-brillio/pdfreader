@@ -1,6 +1,8 @@
 import streamlit as st
 import PyPDF2
 from langchain_openai import AzureChatOpenAI  # Updated import
+import os
+port = os.environ.get('PORT', 8000)
 
 
 st.title("Document Q&A ChatBot")
@@ -80,3 +82,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    st.run(port=port)
