@@ -19,7 +19,7 @@ jobs:
       - name: 'Set up Python'
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
       # Step 3: Install Python dependencies (from requirements.txt)
       - name: 'Install dependencies'
@@ -39,7 +39,6 @@ jobs:
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}  # Azure Web App name
           publish-profile: ${{ secrets.AZURE_CREDENTIALS }}  # Service Principal credentials
-          slot-name: 'production'  # Optional: specify a slot if using slots
 
       # Step 5: Print deployment message
       - name: 'Deployment complete'
