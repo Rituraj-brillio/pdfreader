@@ -15,7 +15,7 @@ jobs:
       - name: 'Checkout code'
         uses: actions/checkout@v2
 
-      # Step 2: Set up Python 3.9 (or the version your app needs)
+      # Step 2: Set up Python 3.11 (for Streamlit)
       - name: 'Set up Python'
         uses: actions/setup-python@v2
         with:
@@ -27,19 +27,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Optional Step: Run tests (if you have tests defined)
-      # Uncomment the next lines if you have tests.
-      #- name: 'Run tests'
-      #  run: |
-      #    pytest
-
-      # Step 4: Deploy to Azure Web App using Azure Web Apps Deploy GitHub Action
-      - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
+      # Step 4: Login to Azure using the service principal
+      - name: 'Login to Azure'
+        uses: azure/login@v1
         with:
-          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}  # Azure Web App name
-          publish-profile: ${{ secrets.AZURE_CREDENTIALS }}  # Service Principal credentials
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Step 5: Print deployment message
+      # Step 5: Deploy to Azure Web App using Azure CLI
+      - name: 'Deploy to Azure Web App'
+        run: |
+          az webapp up --name ${{ secrets.AZURE_WEBAPP_NAME }} \
+                       --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+                       --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }} \
+                       --runtime "PYTHON:3.11"
+
+      # Step 6: Print deployment message
       - name: 'Deployment complete'
         run: echo "Streamlit app deployed successfully!"
+
