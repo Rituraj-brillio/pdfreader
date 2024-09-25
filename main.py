@@ -3,7 +3,7 @@ import PyPDF2
 from langchain_openai import AzureChatOpenAI  # Updated import
 
 
-st.title("Document Q&A ChatBot")
+st.title("Document Q&A Chatbot")
 st.write("Upload a PDF document and ask any questions based on its content.")
 
 # Initialize the Azure OpenAI LLM
